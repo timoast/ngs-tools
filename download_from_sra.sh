@@ -57,6 +57,10 @@ if [ ! $(command -v fastq-dump) ] && [ $fastq == false ]; then
     exit 1
 fi
 
+# check if pigz exists
+if [ ! $(command -v pigz) ]; then
+    printf "pigz not found" >&2
+fi
 
 if [ $fastq == false ]; then
     while read acc; do
@@ -77,9 +81,9 @@ if [ $fastq == false ]; then
             cd $directory
             for myfile in $(ls -d *.sra);do
 		fastq-dump --split-files -v $myfile
-		if [ -f  ${fname}.fastq ]; then
+		if [ -f  ${fname}.fastq ] || [ -f ${fname}_1.fastq ]; then
 		    rm -f $myfile
-		    nice pigz -p $cores ${fname}.fastq
+		    nice pigz -p $cores *.fastq
 		else
 		    printf conversion of ${fname} to fastq failed >&2
 		fi
