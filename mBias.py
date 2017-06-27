@@ -73,6 +73,7 @@ def scanTags(tags):
             return(i)
     return(0)
 
+
 def chooseRandomCoords(bamfile, nreads):
     """choose nreads random coordinates"""
     lengths = bamfile.lengths
@@ -92,6 +93,7 @@ def findMethylation(data, readlen):
     methylation.cg = [x[0]/(x[0] + x[1]) for x in zip(data.mcg, data.cg)]
     methylation.chg = [x[0]/(x[0] + x[1]) for x in zip(data.mchg, data.chg)]
     methylation.chh = [x[0]/(x[0] + x[1]) for x in zip(data.mchh, data.chh)]
+    return(methylation)
 
 
 def saveData(data, outfile):
