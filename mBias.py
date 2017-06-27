@@ -106,6 +106,7 @@ def saveData(data, outfile):
 
 def plotData(data, outplot, readlen):
     """plot base frequencies"""
+    import matplotlib.pyplot as plt
     plt.plot(range(readlen), data.cg, label='mCG')
     plt.plot(range(readlen), data.chg, label='mCHG')
     plt.plot(range(readlen), data.chh, label='mCHH')
@@ -121,7 +122,6 @@ def main(options):
     mc = findMethylation(data, options.readlen)
     saveData(mc, options.output)
     if options.plot is True:
-        import matplotlib.pyplot as plt
         plotData(mc, options.output, options.readlen)
 
 
