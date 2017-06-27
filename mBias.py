@@ -16,8 +16,7 @@ def countBases(bam, nreads=5000, readlen=116):
     """count frequency of base at each read position"""
     bamfile = pysam.AlignmentFile(bam)
     if bamfile.has_index() is True:
-        lengths = bamfile.lengths
-        random_regions = chooseRandomCoords(lengths, nreads*2)
+        random_regions = chooseRandomCoords(bamfile, nreads*2)
         data = Bases(nbase=readlen)
         nrandom = nreads
         for i in xrange(100):
@@ -74,8 +73,9 @@ def scanTags(tags):
             return(i)
     return(0)
 
-def chooseRandomCoords(lengths, nreads):
+def chooseRandomCoords(bamfile, nreads):
     """choose nreads random coordinates"""
+    lengths = bamfile.lengths
     nchromosome = len(lengths)
     random_regions = list()
     for i in xrange(nreads):
@@ -126,7 +126,7 @@ def main(options):
 if __name__ == "__main__":
     from argparse import ArgumentParser
 
-    parser = ArgumentParser(description='Count base frequencies at each read position in bam file')
+    parser = ArgumentParser(description='Calculate methylation bias in read position')
     parser.add_argument('-b', '--bam', help='input bam file')
     parser.add_argument('-n', '--nreads', help='number of reads to profile', required=False, default=5000)
     parser.add_argument('-r', '--readlen', help='read length', required=False, default=116)
