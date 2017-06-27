@@ -19,7 +19,7 @@ def countBases(bam, nreads=5000, readlen=116):
         random_regions = chooseRandomCoords(bamfile, nreads*2)
         data = Bases(nbase=readlen)
         nrandom = nreads
-        for i in xrange(100):
+        for i in random_regions:
             for read in bamfile.fetch(i[0], i[1], i[2]):
                 random_read = read
             try:
@@ -129,7 +129,7 @@ if __name__ == "__main__":
     parser = ArgumentParser(description='Calculate methylation bias in read position')
     parser.add_argument('-b', '--bam', help='input bam file')
     parser.add_argument('-n', '--nreads', help='number of reads to profile', required=False, default=5000)
-    parser.add_argument('-r', '--readlen', help='read length', required=False, default=116)
+    parser.add_argument('-r', '--readlen', help='read length', required=False, default=116, type=int)
     parser.add_argument('-o', '--output', help='output file name')
     parser.add_argument('-p', '--plot', help='create plot', required=False, action='store_true', default=False)
 
