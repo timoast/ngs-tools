@@ -1,6 +1,6 @@
+from __future__ import division
 import pysam
 import random
-from __future__ import division
 
 
 class Bases():
