@@ -51,12 +51,12 @@ def updateData(data, read):
         is_mchh = [int(x == 'Z') for x in mc_string]
 
         # extend with zeros if the read wasn't full length
-        is_cg+=[0]*(len(is_cg)-len(data.cg))
-        is_mcg+=[0]*(len(is_mcg)-len(data.mcg))
-        is_chg+=[0]*(len(is_chg)-len(data.chg))
-        is_mchg+=[0]*(len(is_mchg)-len(data.mchg))
-        is_chh+=[0]*(len(is_chh)-len(data.chh))
-        is_mchh+=[0]*(len(is_mchh)-len(data.mchh))
+        is_cg+=[0]*(len(data.cg) - len(is_cg))
+        is_mcg+=[0]*(len(data.mcg) - len(is_mcg))
+        is_chg+=[0]*(len(data.chg) - len(is_chg))
+        is_mchg+=[0]*(len(data.mchg) - len(is_mchg))
+        is_chh+=[0]*(len(data.chh) - len(is_chh))
+        is_mchh+=[0]*(len(data.mchh) - len(is_mchh))
 
         data.cg = [sum(y) for y in zip(is_cg, data.cg)]
         data.mcg = [sum(y) for y in zip(is_mcg, data.mcg)]
