@@ -117,7 +117,7 @@ def plotData(data, outplot, readlen):
 def main(options):
     data = countBases(options.bam, options.nreads, options.readlen)
     mc = findMethylation(data, options.readlen)
-    saveData(mc)
+    saveData(mc, options.output)
     if options.plot is True:
         import matplotlib.pyplot as plt
         plotData(mc, options.output, options.readlen)
