@@ -127,7 +127,7 @@ if __name__ == "__main__":
     parser = ArgumentParser(description='Calculate methylation bias in read position')
     parser.add_argument('-b', '--bam', help='input bam file', required=True)
     parser.add_argument('-o', '--output', help='output file name', required=True)
-    parser.add_argument('-n', '--nreads', help='number of reads to profile', required=False, default=5000, type=int)
+    parser.add_argument('-n', '--nreads', help='number of reads to profile', required=False, default=500000, type=int)
     parser.add_argument('-r', '--readlen', help='read length', required=False, default=116, type=int)
     parser.add_argument('-p', '--plot', help='create plot', required=False, action='store_true', default=False)
 
