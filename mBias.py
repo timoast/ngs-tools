@@ -22,16 +22,10 @@ def countBases(bam, nreads=5000, readlen=116):
         nrandom = nreads
         for i in random_regions:
             for read in bamfile.fetch(i[0], i[1], i[2]):
-                random_read = read
-            try:
-                random_read
-            except:
-                pass
-            else:
-                data = updateData(data, random_read)
+                data = updateData(data, read)
                 nrandom -= 1
-            if nrandom <= 0:
-                return(data)
+                if nrandom <= 0:
+                    return(data)
         return(data)
     else:
         print("bam file not indexed")
@@ -120,10 +114,11 @@ def plotData(data, outplot, readlen):
 
 def main(options):
     data = countBases(options.bam, options.nreads, options.readlen)
-    mc = findMethylation(data, options.readlen)
-    saveData(mc, options.output)
-    if options.plot is True:
-        plotData(mc, options.output, options.readlen)
+    if data is not False:
+        mc = findMethylation(data, options.readlen)
+        saveData(mc, options.output)
+        if options.plot is True:
+            plotData(mc, options.output, options.readlen)
 
 
 if __name__ == "__main__":
