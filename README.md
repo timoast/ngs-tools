@@ -14,6 +14,19 @@ download_from_sra.sh -- download data from NCBI SRA or ENA
   -q          download fastq files from ENA (default NCBI SRA)
 ```
 
+# Download data from GEO
+
+Download data from NCBI GEO
+
+`download_from_geo.sh`
+
+```
+download_from_geo.sh -- download data from NCBI GEO
+  -h  show help and exit
+  -f [file]   input file with a list of GEO accession names
+  -e          expand downloaded archives
+  -c          cleanup (remove tar files if expanded)
+```
 
 # Extract reads from BAM by read name
 
