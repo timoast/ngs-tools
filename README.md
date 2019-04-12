@@ -66,6 +66,29 @@ optional arguments:
   -p, --plot            create plot
 ```
 
+# Replace SNP bases with ambiguous base codes
+
+`replace_bases.py`
+
+Given a set of SNPs, this script will replace the base at the SNP position in a FASTA file with
+the IUPAC base code that encodes all variants. For example, if there is a SNP A/G, there will
+be the code R inserted, encoding both A and G. See [IUPAC](https://www.bioinformatics.org/sms/iupac.html) codes.
+
+```
+usage: replace_bases.py [-h] -g GENOME -s SNP -o OUTPUT
+
+Replace SNP positions with ambiguous base codes
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -g GENOME, --genome GENOME
+                        reference genome fasta file
+  -s SNP, --snp SNP     snp file in tsv format
+  -o OUTPUT, --output OUTPUT
+                        output filename
+```
+
+
 # Find mean insert size in paired-end reads
 
 `mean_insert_size.py`
