@@ -1,26 +1,25 @@
 #! /bin/bash
 
-# Tim Stuart 2016
-
 # downloads data for all accessions in an input file
 # sra files are moved to their own folders
 # then converted to fastq and gzipped
 # input can be a list of SRA runs (SRR) or SRA projects (SRP)
 
-infile=  cores=10  fastq=false
+infile=  cores=10  fastq=false  outdir="."
 
 usage="$(basename "$0") -- download data from NCBI SRA or ENA
   -h  show help and exit
   -f [file]   input file with a list of SRA accession names (runs or projects)
   -p [cores]  number of cores to use for fastq compression (default 10)
-  -q          download fastq files from ENA (default NCBI SRA)"
+  -q          download fastq files from ENA (default NCBI SRA)
+  -o          output directory path (default current directory)"
 
 if [ $# -eq 0 ]; then
   printf "$usage\n"
   exit 1
 fi
 
-while getopts ":f:p:qh" opt; do
+while getopts ":f:p:o:qh" opt; do
   case $opt in
     h)  printf "$usage\n"
         exit
@@ -28,6 +27,8 @@ while getopts ":f:p:qh" opt; do
     f)  infile=$OPTARG
         ;;
     p)  cores=$OPTARG
+        ;;
+    o)  outdir=$OPTARG
         ;;
     q)  fastq=true
         ;;
@@ -62,6 +63,7 @@ if [ ! $(command -v pigz) ]; then
 fi
 
 if [ $fastq == false ]; then
+    mkdir $outdir
     while read acc; do
 	[[ -z $acc ]] && continue
 	printf "Downloading ${acc} from NCBI\n"
@@ -75,7 +77,7 @@ if [ $fastq == false ]; then
 		 "ftp://ftp-trace.ncbi.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/${prefix}/${acc}/*"
 	fi
     done < $infile
-    
+
     for myfile in ./*.sra; do
 	fname=(${myfile//.sra/ })
 	mkdir $fname
@@ -91,10 +93,14 @@ if [ $fastq == false ]; then
             printf "conversion of ${fname} to fastq failed\n" >&2
         fi
         cd ..
+	mv $fname $outdir
     done
 else
     # Downloading from the ENA
     while read acc; do
+	mkdir $outdir
+        mkdir "${outdir}/${acc}"
+        cd "${outdir}/${acc}"
 	dl=false
 	[[ -z $acc ]] && continue
         printf "Downloading ${acc} from EBI\n"
@@ -118,11 +124,6 @@ else
 		printf "Download failed for ${acc}\n" >&2
 	    fi
 	fi
+	cd -
     done < $infile
-
-    for myfile in ./*.fastq.gz; do
-        fname=(${myfile//.fastq.gz/ })
-        mkdir $fname
-        mv $myfile $fname
-    done
 fi
