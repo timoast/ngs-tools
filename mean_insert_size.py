@@ -1,4 +1,4 @@
-#! /usr/local/bin/python2.7
+#! /usr/bin/env python3
 """
 mean_size.py
 Created by Tim Stuart
@@ -56,4 +56,4 @@ if __name__ == "__main__":
     lengths = get_data(sys.stdin)
     lengths = reject_outliers(lengths, std=options.std, m=options.limit)
     mn, std = calc_size(lengths)
-    print mn, std
+    print(mn, std)
